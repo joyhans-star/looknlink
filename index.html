@@ -1550,9 +1550,87 @@
     const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = 'portfolio.html';
+    a.download = 'index.html';
     a.click();
     URL.revokeObjectURL(a.href);
+  }
+
+  /* ── GitHub 직접 저장 ── */
+  const GH_OWNER = 'joyhans-star';
+  const GH_REPO  = 'looknlink';
+  const GH_FILE  = 'index.html';
+
+  function openGhSetup() {
+    document.getElementById('ghTokenInput').value = localStorage.getItem('gh_token') || '';
+    document.getElementById('ghSetupModal').classList.add('open');
+  }
+
+  function closeGhSetup() {
+    document.getElementById('ghSetupModal').classList.remove('open');
+  }
+
+  function saveGhToken() {
+    const token = document.getElementById('ghTokenInput').value.trim();
+    if (!token) { alert('토큰을 입력해주세요.'); return; }
+    localStorage.setItem('gh_token', token);
+    closeGhSetup();
+    alert('✅ 연동 완료! 이제 "🚀 GitHub 저장" 버튼으로 바로 업로드할 수 있어요.');
+  }
+
+  async function saveToGitHub() {
+    const token = localStorage.getItem('gh_token');
+    if (!token) {
+      openGhSetup();
+      return;
+    }
+
+    const btn = document.getElementById('ghSaveBtn');
+    const origText = btn.textContent;
+    btn.textContent = '⏳ 저장 중...';
+    btn.disabled = true;
+
+    try {
+      // 현재 파일 SHA 조회
+      const metaRes = await fetch(
+        `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_FILE}`,
+        { headers: { 'Authorization': 'Bearer ' + token } }
+      );
+      if (!metaRes.ok) throw new Error('토큰이 잘못되었거나 권한이 없어요. ⚙️ 설정에서 토큰을 확인해주세요.');
+      const meta = await metaRes.json();
+
+      // 현재 HTML → base64
+      const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+      const b64  = btoa(unescape(encodeURIComponent(html)));
+
+      // GitHub API로 커밋
+      const res = await fetch(
+        `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_FILE}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Authorization': 'Bearer ' + token,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            message: '포트폴리오 업데이트',
+            content: b64,
+            sha: meta.sha
+          })
+        }
+      );
+
+      if (res.ok) {
+        btn.textContent = '✅ 저장됨!';
+        setTimeout(() => { btn.textContent = origText; btn.disabled = false; }, 3000);
+      } else {
+        const err = await res.json();
+        throw new Error(err.message || '알 수 없는 오류');
+      }
+    } catch (e) {
+      alert('저장 실패: ' + e.message);
+      btn.textContent = origText;
+      btn.disabled = false;
+    }
   }
 </script>
 
@@ -1576,19 +1654,85 @@
   align-items: center; justify-content: space-between;
 ">
   <span style="color:#aaa; font-size:0.85rem;">✏️ 편집 모드 — 제목이나 설명을 클릭해서 바로 수정하세요</span>
-  <div style="display:flex; gap:10px; flex-shrink:0;">
+  <div style="display:flex; gap:10px; flex-shrink:0; align-items:center;">
     <button onclick="openAddVideoModal()" style="
       background: #2a2a2a; color: var(--gold-lt);
       border: 1px solid var(--gold); border-radius: 8px;
       padding: 10px 20px; font-size: 0.88rem; font-weight: 700;
       cursor: pointer; font-family: inherit; white-space: nowrap;
     ">📹 영상 추가</button>
-    <button onclick="saveHTML()" style="
+    <button id="ghSaveBtn" onclick="saveToGitHub()" style="
       background: var(--gold); color: #0a0a0a;
       border: none; border-radius: 8px;
       padding: 10px 24px; font-size: 0.88rem; font-weight: 700;
       cursor: pointer; font-family: inherit; white-space: nowrap;
-    ">💾 저장 (파일 다운로드)</button>
+    ">🚀 GitHub 저장</button>
+    <button onclick="openGhSetup()" title="GitHub 설정" style="
+      background: #2a2a2a; color: #aaa;
+      border: 1px solid #444; border-radius: 8px;
+      padding: 10px 14px; font-size: 0.88rem;
+      cursor: pointer; font-family: inherit;
+    ">⚙️</button>
+  </div>
+</div>
+
+<!-- ── GitHub 토큰 설정 모달 ── -->
+<div id="ghSetupModal" style="
+  display:none; position:fixed; inset:0;
+  background:rgba(0,0,0,0.88); z-index:600;
+  align-items:center; justify-content:center; padding:20px;
+" onclick="if(event.target===this)closeGhSetup()">
+  <div style="
+    background:#1a1a1a; border:1px solid #444; border-radius:16px;
+    padding:32px; width:100%; max-width:500px;
+  ">
+    <p style="font-size:1.1rem;font-weight:700;color:var(--gold-lt);margin-bottom:6px;">⚙️ GitHub 연동 설정</p>
+    <p style="font-size:0.82rem;color:#888;margin-bottom:20px;line-height:1.6;">
+      아래 순서로 토큰을 발급받아 붙여넣으면 "🚀 GitHub 저장" 버튼 하나로 바로 업로드됩니다.
+    </p>
+
+    <div style="margin-bottom:20px;display:flex;flex-direction:column;gap:10px;">
+      <div style="display:flex;gap:10px;align-items:flex-start;font-size:0.83rem;color:#bbb;line-height:1.5;">
+        <span style="background:rgba(212,168,75,0.15);color:var(--gold);border-radius:50%;width:22px;height:22px;min-width:22px;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;margin-top:1px;">1</span>
+        <span><a href="https://github.com/settings/personal-access-tokens/new" target="_blank" style="color:var(--gold);">github.com → Settings → Developer settings → Fine-grained tokens → Generate new token</a> 접속</span>
+      </div>
+      <div style="display:flex;gap:10px;align-items:flex-start;font-size:0.83rem;color:#bbb;line-height:1.5;">
+        <span style="background:rgba(212,168,75,0.15);color:var(--gold);border-radius:50%;width:22px;height:22px;min-width:22px;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;margin-top:1px;">2</span>
+        <span>Token name: <b>looknlink</b> / Expiration: <b>No expiration</b></span>
+      </div>
+      <div style="display:flex;gap:10px;align-items:flex-start;font-size:0.83rem;color:#bbb;line-height:1.5;">
+        <span style="background:rgba(212,168,75,0.15);color:var(--gold);border-radius:50%;width:22px;height:22px;min-width:22px;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;margin-top:1px;">3</span>
+        <span>Repository access: <b>Only select repositories → looknlink</b></span>
+      </div>
+      <div style="display:flex;gap:10px;align-items:flex-start;font-size:0.83rem;color:#bbb;line-height:1.5;">
+        <span style="background:rgba(212,168,75,0.15);color:var(--gold);border-radius:50%;width:22px;height:22px;min-width:22px;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;margin-top:1px;">4</span>
+        <span>Permissions → Contents: <b>Read and write</b> 선택 → Generate token</span>
+      </div>
+      <div style="display:flex;gap:10px;align-items:flex-start;font-size:0.83rem;color:#bbb;line-height:1.5;">
+        <span style="background:rgba(212,168,75,0.15);color:var(--gold);border-radius:50%;width:22px;height:22px;min-width:22px;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;margin-top:1px;">5</span>
+        <span>생성된 토큰 복사 → 아래에 붙여넣기</span>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:16px;">
+      <label style="font-size:0.78rem;color:#888;">GitHub Token</label>
+      <input id="ghTokenInput" type="password" placeholder="github_pat_..." style="
+        background:#111;border:1px solid #333;border-radius:8px;
+        color:var(--text);padding:11px 14px;font-family:inherit;font-size:0.88rem;
+      "/>
+    </div>
+
+    <div style="display:flex;gap:10px;justify-content:flex-end;">
+      <button onclick="closeGhSetup()" style="
+        background:transparent;border:1px solid #444;color:#888;
+        border-radius:8px;padding:10px 20px;font-size:0.85rem;cursor:pointer;font-family:inherit;
+      ">취소</button>
+      <button onclick="saveGhToken()" style="
+        background:var(--gold);color:#0a0a0a;border:none;
+        border-radius:8px;padding:10px 24px;font-size:0.85rem;font-weight:700;
+        cursor:pointer;font-family:inherit;
+      ">저장</button>
+    </div>
   </div>
 </div>
 
