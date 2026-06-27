@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html lang="ko"><head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>LooknLink Production</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -549,6 +550,78 @@
     .footer-subs .w { color: var(--wood-lt); }
     .footer-subs .s { color: var(--story-lt); }
 
+    /* ─── 영상 추가 모달 ─── */
+    #addVideoModal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 500;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    #addVideoModal.open { display: flex; }
+
+    .avm-inner {
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 16px;
+      padding: 32px;
+      width: 100%;
+      max-width: 480px;
+    }
+
+    .avm-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: var(--gold-lt);
+    }
+    .avm-sub {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+
+    .avm-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+    .avm-field label { font-size: 0.78rem; color: var(--muted); letter-spacing: 0.06em; }
+    .avm-field input, .avm-field textarea {
+      background: #111;
+      border: 1px solid #333;
+      border-radius: 8px;
+      color: var(--text);
+      padding: 11px 14px;
+      font-family: inherit;
+      font-size: 0.88rem;
+      transition: border-color 0.2s;
+    }
+    .avm-field input:focus, .avm-field textarea:focus { outline: none; border-color: var(--gold); }
+    .avm-field textarea { height: 80px; resize: none; }
+
+    .avm-yt-preview {
+      display: none;
+      background: #111;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+    .avm-yt-preview img { width: 100%; display: block; }
+    .avm-yt-preview.show { display: block; }
+
+    .avm-btns { display: flex; gap: 10px; justify-content: flex-end; margin-top: 4px; }
+    .avm-cancel {
+      background: transparent; border: 1px solid #444; color: var(--muted);
+      border-radius: 8px; padding: 10px 20px; font-size: 0.85rem;
+      cursor: pointer; font-family: inherit;
+    }
+    .avm-confirm {
+      background: var(--gold); color: #0a0a0a; border: none;
+      border-radius: 8px; padding: 10px 24px; font-size: 0.85rem; font-weight: 700;
+      cursor: pointer; font-family: inherit;
+    }
+    .avm-confirm:disabled { opacity: 0.4; cursor: not-allowed; }
+
     /* ─── LIGHTBOX ─── */
     #lightbox {
       display: none;
@@ -731,7 +804,7 @@
     <div class="hero-eyebrow">LooknLink Production</div>
 
     <h1 class="hero-title">
-      <span class="en" contenteditable="true" style="outline: rgba(212, 168, 75, 0.6) dashed 2px; border-radius: 4px; min-width: 40px; cursor: text; pointer-events: auto;">Look. Link.<br>Create.</span>
+      <span class="en">Look. Link.<br>Create.</span>
     </h1>
 
 
@@ -749,73 +822,73 @@
 
 <!-- ════════════ BRANDS ════════════ -->
 <section id="brands">
-  <div class="sec-header fade-in visible">
+  <div class="sec-header fade-in">
     <p class="sec-label">Our Brands</p>
-    <h2 class="sec-title" contenteditable="true" style="outline: rgba(212, 168, 75, 0.6) dashed 2px; border-radius: 4px; min-width: 40px; cursor: text; pointer-events: auto;">룩앤링크 프로덕션</h2>
+    <h2 class="sec-title">룩앤링크 프로덕션</h2>
     <p class="sec-sub">4가지 분야가 하나의 브랜드 철학 아래 연결됩니다.</p>
   </div>
 
-  <div class="brands-grid fade-in visible">
+  <div class="brands-grid fade-in">
 
     <!-- 영상 제작 -->
-    <div class="brand-card c-gold" style="pointer-events: none;">
+    <div class="brand-card c-gold">
       <div class="bc-icon gold-bg">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
-          <rect x="2" y="4" width="20" height="16" rx="2"></rect>
-          <polygon points="10,9 16,12 10,15" fill="currentColor" stroke="none"></polygon>
+          <rect x="2" y="4" width="20" height="16" rx="2"/>
+          <polygon points="10,9 16,12 10,15" fill="currentColor" stroke="none"/>
         </svg>
       </div>
       <div class="bc-badge main-badge">LooknLink Production</div>
-      <h3 class="bc-name" contenteditable="true" style="outline: rgba(212, 168, 75, 0.6) dashed 2px; border-radius: 4px; min-width: 40px; cursor: text; pointer-events: auto;">VIDEO</h3>
+      <h3 class="bc-name">VIDEO</h3>
       <p class="bc-sub">Video Production</p>
       <!-- ✏️ 서비스 설명을 수정하세요 -->
-      <p class="bc-desc" contenteditable="true" style="outline: rgba(212, 168, 75, 0.6) dashed 2px; border-radius: 4px; min-width: 40px; cursor: text; pointer-events: auto;">촬영부터 편집·색보정까지. 브랜드 필름, 다큐, 행사 영상 등 목적에 맞는 영상 콘텐츠를 제작합니다.</p>
+      <p class="bc-desc">촬영부터 편집·색보정까지. 브랜드 필름, 다큐, 행사 영상 등 목적에 맞는 영상 콘텐츠를 제작합니다.</p>
     </div>
 
     <!-- 사진 작업 -->
-    <div class="brand-card c-gold" style="pointer-events: none;">
+    <div class="brand-card c-gold">
       <div class="bc-icon gold-bg">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
-          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
-          <circle cx="12" cy="13" r="4"></circle>
+          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+          <circle cx="12" cy="13" r="4"/>
         </svg>
       </div>
       <div class="bc-badge main-badge">LooknLink Production</div>
-      <h3 class="bc-name" contenteditable="true" style="outline: rgba(212, 168, 75, 0.6) dashed 2px; border-radius: 4px; min-width: 40px; cursor: text; pointer-events: auto;">PHOTO</h3>
+      <h3 class="bc-name">PHOTO</h3>
       <p class="bc-sub">Photography</p>
       <!-- ✏️ 서비스 설명을 수정하세요 -->
-      <p class="bc-desc" contenteditable="true" style="outline: rgba(212, 168, 75, 0.6) dashed 2px; border-radius: 4px; min-width: 40px; cursor: text; pointer-events: auto;">인물, 제품, 공간 등 다양한 장르의 사진 촬영. 순간을 가장 아름답게 기록합니다.</p>
+      <p class="bc-desc">인물, 제품, 공간 등 다양한 장르의 사진 촬영. 순간을 가장 아름답게 기록합니다.</p>
     </div>
 
     <!-- 싯딤 -->
-    <div class="brand-card c-wood" style="pointer-events: none;">
+    <div class="brand-card c-wood">
       <div class="bc-icon wood-bg">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
-          <path d="M12 2L3 7l9 5 9-5-9-5z"></path>
-          <path d="M3 12l9 5 9-5"></path>
-          <path d="M3 17l9 5 9-5"></path>
+          <path d="M12 2L3 7l9 5 9-5-9-5z"/>
+          <path d="M3 12l9 5 9-5"/>
+          <path d="M3 17l9 5 9-5"/>
         </svg>
       </div>
       <div class="bc-badge sub-badge-wood">Sub-brand · LooknLink</div>
-      <h3 class="bc-name" contenteditable="true" style="outline: rgba(212, 168, 75, 0.6) dashed 2px; border-radius: 4px; min-width: 40px; cursor: text; pointer-events: auto;">WOOD</h3>
+      <h3 class="bc-name">WOOD</h3>
       <p class="bc-sub">Wood &amp; Laser Engraving · Shittim</p>
       <!-- ✏️ 서비스 설명을 수정하세요 -->
-      <p class="bc-desc" contenteditable="true" style="outline: rgba(212, 168, 75, 0.6) dashed 2px; border-radius: 4px; min-width: 40px; cursor: text; pointer-events: auto;">나무를 소재로 한 레이저 각인 및 목공 작업. 세상에 하나뿐인 소품과 선물을 만들어 드립니다.</p>
+      <p class="bc-desc">나무를 소재로 한 레이저 각인 및 목공 작업. 세상에 하나뿐인 소품과 선물을 만들어 드립니다.</p>
     </div>
 
     <!-- 더스토리 -->
-    <div class="brand-card c-story" style="pointer-events: none;">
+    <div class="brand-card c-story">
       <div class="bc-icon story-bg">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
-          <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-          <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+          <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+          <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
         </svg>
       </div>
       <div class="bc-badge sub-badge-story">Sub-brand · LooknLink</div>
-      <h3 class="bc-name" contenteditable="true" style="outline: rgba(212, 168, 75, 0.6) dashed 2px; border-radius: 4px; min-width: 40px; cursor: text; pointer-events: auto;">THE STORY</h3>
+      <h3 class="bc-name">THE STORY</h3>
       <p class="bc-sub">Autobiography Video Project</p>
       <!-- ✏️ 서비스 설명을 수정하세요 -->
-      <p class="bc-desc" contenteditable="true" style="outline: rgba(212, 168, 75, 0.6) dashed 2px; border-radius: 4px; min-width: 40px; cursor: text; pointer-events: auto;">한 사람의 삶을 영상으로 기록하는 자서전 프로젝트. 당신의 이야기를 다음 세대에 전합니다.</p>
+      <p class="bc-desc">한 사람의 삶을 영상으로 기록하는 자서전 프로젝트. 당신의 이야기를 다음 세대에 전합니다.</p>
     </div>
 
   </div>
@@ -824,18 +897,18 @@
 
 <!-- ════════════ WORKS ════════════ -->
 <section id="works">
-  <div class="sec-header fade-in visible">
+  <div class="sec-header fade-in">
     <p class="sec-label">Selected Works</p>
-    <h2 class="sec-title" contenteditable="true" style="outline: rgba(212, 168, 75, 0.6) dashed 2px; border-radius: 4px; min-width: 40px; cursor: text; pointer-events: auto;">작업물</h2>
+    <h2 class="sec-title">작업물</h2>
     <p class="sec-sub">카테고리별로 필터링해서 확인하세요.</p>
   </div>
 
-  <div class="filter-bar fade-in visible">
-    <button class="filter-btn active-all" data-filter="all">ALL</button>
-    <button class="filter-btn" data-filter="video">VIDEO</button>
-    <button class="filter-btn" data-filter="photo">PHOTO</button>
+  <div class="filter-bar fade-in">
+    <button class="filter-btn" data-filter="all"    >ALL</button>
+    <button class="filter-btn" data-filter="video"  >VIDEO</button>
+    <button class="filter-btn" data-filter="photo"  >PHOTO</button>
     <button class="filter-btn" data-filter="shittim">WOOD</button>
-    <button class="filter-btn" data-filter="story">THE STORY</button>
+    <button class="filter-btn" data-filter="story"  >THE STORY</button>
   </div>
 
   <!--
@@ -853,14 +926,20 @@
   ╚══════════════════════════════════════════════════════════╝
   -->
 
-  <div class="works-grid fade-in visible" id="worksGrid">
+  <div class="works-grid fade-in" id="worksGrid">
 
     <!-- ▼ VIDEO 카드 예시 — data-yt-id 에 유튜브 영상 ID 입력 -->
-    <article class="work-card" data-category="video" data-yt-id="N17TpMVsiPc" data-lb-title="영상 작업명 1" data-lb-desc="영상 설명을 여기에 입력하세요." onclick="openLightbox(this)" style="pointer-events: none;">
-      <img class="card-thumb" src="https://img.youtube.com/vi/N17TpMVsiPc/hqdefault.jpg" alt="영상 썸네일" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+    <article class="work-card" data-category="video"
+      data-yt-id="N17TpMVsiPc"
+      data-lb-title="영상 작업명 1" data-lb-desc="영상 설명을 여기에 입력하세요."
+      onclick="openLightbox(this)">
+      <img class="card-thumb"
+        src="https://img.youtube.com/vi/N17TpMVsiPc/hqdefault.jpg"
+        alt="영상 썸네일"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
       <div class="card-thumb-placeholder" style="display:none;">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
-          <rect x="2" y="4" width="20" height="16" rx="2"></rect><polygon points="10,9 16,12 10,15"></polygon>
+          <rect x="2" y="4" width="20" height="16" rx="2"/><polygon points="10,9 16,12 10,15"/>
         </svg>
       </div>
       <div class="card-body">
@@ -868,17 +947,23 @@
           <span class="cat-dot gold"></span>
           <span class="cat-label gold">VIDEO</span>
         </div>
-        <h3 class="card-title" contenteditable="true" style="outline: rgba(212, 168, 75, 0.6) dashed 2px; border-radius: 4px; min-width: 40px; cursor: text; pointer-events: auto;">가온솔로이스츠</h3>
-        <p class="card-desc" contenteditable="true" style="outline: rgba(212, 168, 75, 0.6) dashed 2px; border-radius: 4px; min-width: 40px; cursor: text; pointer-events: auto;">영상 설명을 여기에 적어주세요.</p>
+        <h3 class="card-title">영상 작업명 1</h3>
+        <p class="card-desc">영상 설명을 여기에 적어주세요.</p>
       </div>
     </article>
 
     <!-- ▼ VIDEO 카드 예시 #2 -->
-    <article class="work-card" data-category="video" data-yt-id="여기에_유튜브ID" data-lb-title="영상 작업명 2" data-lb-desc="영상 설명을 여기에 입력하세요." onclick="openLightbox(this)" style="pointer-events: none;">
-      <img class="card-thumb" src="https://img.youtube.com/vi/여기에_유튜브ID/hqdefault.jpg" alt="영상 썸네일" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+    <article class="work-card" data-category="video"
+      data-yt-id="여기에_유튜브ID"
+      data-lb-title="영상 작업명 2" data-lb-desc="영상 설명을 여기에 입력하세요."
+      onclick="openLightbox(this)">
+      <img class="card-thumb"
+        src="https://img.youtube.com/vi/여기에_유튜브ID/hqdefault.jpg"
+        alt="영상 썸네일"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
       <div class="card-thumb-placeholder" style="display:none;">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
-          <rect x="2" y="4" width="20" height="16" rx="2"></rect><polygon points="10,9 16,12 10,15"></polygon>
+          <rect x="2" y="4" width="20" height="16" rx="2"/><polygon points="10,9 16,12 10,15"/>
         </svg>
       </div>
       <div class="card-body">
@@ -886,17 +971,19 @@
           <span class="cat-dot gold"></span>
           <span class="cat-label gold">VIDEO</span>
         </div>
-        <h3 class="card-title" contenteditable="true" style="outline: rgba(212, 168, 75, 0.6) dashed 2px; border-radius: 4px; min-width: 40px; cursor: text; pointer-events: auto;">영상 작업명 2</h3>
-        <p class="card-desc" contenteditable="true" style="outline: rgba(212, 168, 75, 0.6) dashed 2px; border-radius: 4px; min-width: 40px; cursor: text; pointer-events: auto;">영상 설명을 여기에 적어주세요.</p>
+        <h3 class="card-title">영상 작업명 2</h3>
+        <p class="card-desc">영상 설명을 여기에 적어주세요.</p>
       </div>
     </article>
 
     <!-- 사진 #1 -->
-    <article class="work-card" data-category="photo" data-lb-img="" data-lb-title="사진 작업명 1" data-lb-desc="이 사진 작업의 설명을 입력하세요." onclick="openLightbox(this)" style="pointer-events: none;">
+    <article class="work-card" data-category="photo"
+      data-lb-img="" data-lb-title="사진 작업명 1" data-lb-desc="이 사진 작업의 설명을 입력하세요."
+      onclick="openLightbox(this)">
       <div class="card-thumb-placeholder">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
-          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
-          <circle cx="12" cy="13" r="4"></circle>
+          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+          <circle cx="12" cy="13" r="4"/>
         </svg>
       </div>
       <div class="card-body">
@@ -904,18 +991,21 @@
           <span class="cat-dot gold"></span>
           <span class="cat-label gold">PHOTO</span>
         </div>
-        <h3 class="card-title" contenteditable="true" style="outline: rgba(212, 168, 75, 0.6) dashed 2px; border-radius: 4px; min-width: 40px; cursor: text; pointer-events: auto;">사진 작업명 1</h3>
-        <p class="card-desc" contenteditable="true" style="outline: rgba(212, 168, 75, 0.6) dashed 2px; border-radius: 4px; min-width: 40px; cursor: text; pointer-events: auto;">사진 작업 설명을 여기에 적어주세요.</p>
+        <h3 class="card-title">사진 작업명 1</h3>
+        <p class="card-desc">사진 작업 설명을 여기에 적어주세요.</p>
       </div>
     </article>
 
     <!-- ▼ PHOTO 카드 예시 #2 — src에 구글 포토 이미지 URL 입력 -->
-    <article class="work-card" data-category="photo" data-lb-img="여기에_이미지URL" data-lb-title="사진 작업명 2" data-lb-desc="사진 설명을 입력하세요." onclick="openLightbox(this)" style="pointer-events: none;">
-      <img class="card-thumb" src="여기에_이미지URL" alt="사진 썸네일" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" style="display: none;">
-      <div class="card-thumb-placeholder" style="display: flex;">
+    <article class="work-card" data-category="photo"
+      data-lb-img="여기에_이미지URL" data-lb-title="사진 작업명 2" data-lb-desc="사진 설명을 입력하세요."
+      onclick="openLightbox(this)">
+      <img class="card-thumb" src="여기에_이미지URL" alt="사진 썸네일"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="card-thumb-placeholder" style="display:none;">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
-          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
-          <circle cx="12" cy="13" r="4"></circle>
+          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+          <circle cx="12" cy="13" r="4"/>
         </svg>
       </div>
       <div class="card-body">
@@ -923,19 +1013,22 @@
           <span class="cat-dot gold"></span>
           <span class="cat-label gold">PHOTO</span>
         </div>
-        <h3 class="card-title" contenteditable="true" style="outline: rgba(212, 168, 75, 0.6) dashed 2px; border-radius: 4px; min-width: 40px; cursor: text; pointer-events: auto;">사진 작업명 2</h3>
-        <p class="card-desc" contenteditable="true" style="outline: rgba(212, 168, 75, 0.6) dashed 2px; border-radius: 4px; min-width: 40px; cursor: text; pointer-events: auto;">사진 설명을 여기에 적어주세요.</p>
+        <h3 class="card-title">사진 작업명 2</h3>
+        <p class="card-desc">사진 설명을 여기에 적어주세요.</p>
       </div>
     </article>
 
     <!-- ▼ WOOD 카드 예시 #1 — src에 구글 포토 이미지 URL 입력 -->
-    <article class="work-card" data-category="shittim" data-lb-img="여기에_이미지URL" data-lb-title="WOOD 작업명 1" data-lb-desc="나무/레이저 작업 설명을 입력하세요." onclick="openLightbox(this)" style="pointer-events: none;">
-      <img class="card-thumb" src="여기에_이미지URL" alt="WOOD 썸네일" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" style="display: none;">
-      <div class="card-thumb-placeholder" style="display: flex;">
+    <article class="work-card" data-category="shittim"
+      data-lb-img="여기에_이미지URL" data-lb-title="WOOD 작업명 1" data-lb-desc="나무/레이저 작업 설명을 입력하세요."
+      onclick="openLightbox(this)">
+      <img class="card-thumb" src="여기에_이미지URL" alt="WOOD 썸네일"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="card-thumb-placeholder" style="display:none;">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
-          <path d="M12 2L3 7l9 5 9-5-9-5z"></path>
-          <path d="M3 12l9 5 9-5"></path>
-          <path d="M3 17l9 5 9-5"></path>
+          <path d="M12 2L3 7l9 5 9-5-9-5z"/>
+          <path d="M3 12l9 5 9-5"/>
+          <path d="M3 17l9 5 9-5"/>
         </svg>
       </div>
       <div class="card-body">
@@ -943,19 +1036,22 @@
           <span class="cat-dot wood"></span>
           <span class="cat-label wood">WOOD</span>
         </div>
-        <h3 class="card-title" contenteditable="true" style="outline: rgba(212, 168, 75, 0.6) dashed 2px; border-radius: 4px; min-width: 40px; cursor: text; pointer-events: auto;">WOOD 작업명 1</h3>
-        <p class="card-desc" contenteditable="true" style="outline: rgba(212, 168, 75, 0.6) dashed 2px; border-radius: 4px; min-width: 40px; cursor: text; pointer-events: auto;">나무/레이저 각인 작업 설명을 여기에 적어주세요.</p>
+        <h3 class="card-title">WOOD 작업명 1</h3>
+        <p class="card-desc">나무/레이저 각인 작업 설명을 여기에 적어주세요.</p>
       </div>
     </article>
 
     <!-- ▼ WOOD 카드 예시 #2 -->
-    <article class="work-card" data-category="shittim" data-lb-img="여기에_이미지URL" data-lb-title="WOOD 작업명 2" data-lb-desc="나무/레이저 작업 설명을 입력하세요." onclick="openLightbox(this)" style="pointer-events: none;">
-      <img class="card-thumb" src="여기에_이미지URL" alt="WOOD 썸네일" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" style="display: none;">
-      <div class="card-thumb-placeholder" style="display: flex;">
+    <article class="work-card" data-category="shittim"
+      data-lb-img="여기에_이미지URL" data-lb-title="WOOD 작업명 2" data-lb-desc="나무/레이저 작업 설명을 입력하세요."
+      onclick="openLightbox(this)">
+      <img class="card-thumb" src="여기에_이미지URL" alt="WOOD 썸네일"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="card-thumb-placeholder" style="display:none;">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
-          <path d="M12 2L3 7l9 5 9-5-9-5z"></path>
-          <path d="M3 12l9 5 9-5"></path>
-          <path d="M3 17l9 5 9-5"></path>
+          <path d="M12 2L3 7l9 5 9-5-9-5z"/>
+          <path d="M3 12l9 5 9-5"/>
+          <path d="M3 17l9 5 9-5"/>
         </svg>
       </div>
       <div class="card-body">
@@ -963,17 +1059,19 @@
           <span class="cat-dot wood"></span>
           <span class="cat-label wood">WOOD</span>
         </div>
-        <h3 class="card-title" contenteditable="true" style="outline: rgba(212, 168, 75, 0.6) dashed 2px; border-radius: 4px; min-width: 40px; cursor: text; pointer-events: auto;">WOOD 작업명 2</h3>
-        <p class="card-desc" contenteditable="true" style="outline: rgba(212, 168, 75, 0.6) dashed 2px; border-radius: 4px; min-width: 40px; cursor: text; pointer-events: auto;">나무/레이저 각인 작업 설명을 여기에 적어주세요.</p>
+        <h3 class="card-title">WOOD 작업명 2</h3>
+        <p class="card-desc">나무/레이저 각인 작업 설명을 여기에 적어주세요.</p>
       </div>
     </article>
 
     <!-- 더스토리 #1 -->
-    <article class="work-card" data-category="story" data-lb-img="" data-lb-title="더스토리 작업명 1" data-lb-desc="자서전 영상 프로젝트 설명을 입력하세요." onclick="openLightbox(this)" style="pointer-events: none;">
+    <article class="work-card" data-category="story"
+      data-lb-img="" data-lb-title="더스토리 작업명 1" data-lb-desc="자서전 영상 프로젝트 설명을 입력하세요."
+      onclick="openLightbox(this)">
       <div class="card-thumb-placeholder">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
-          <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-          <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+          <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+          <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
         </svg>
       </div>
       <div class="card-body">
@@ -981,17 +1079,19 @@
           <span class="cat-dot story"></span>
           <span class="cat-label story">THE STORY</span>
         </div>
-        <h3 class="card-title" contenteditable="true" style="outline: rgba(212, 168, 75, 0.6) dashed 2px; border-radius: 4px; min-width: 40px; cursor: text; pointer-events: auto;">더스토리 작업명 1</h3>
-        <p class="card-desc" contenteditable="true" style="outline: rgba(212, 168, 75, 0.6) dashed 2px; border-radius: 4px; min-width: 40px; cursor: text; pointer-events: auto;">자서전 영상 프로젝트 설명을 여기에 적어주세요.</p>
+        <h3 class="card-title">더스토리 작업명 1</h3>
+        <p class="card-desc">자서전 영상 프로젝트 설명을 여기에 적어주세요.</p>
       </div>
     </article>
 
     <!-- 더스토리 #2 -->
-    <article class="work-card" data-category="story" data-lb-img="" data-lb-title="더스토리 작업명 2" data-lb-desc="자서전 영상 프로젝트 설명을 입력하세요." onclick="openLightbox(this)" style="pointer-events: none;">
+    <article class="work-card" data-category="story"
+      data-lb-img="" data-lb-title="더스토리 작업명 2" data-lb-desc="자서전 영상 프로젝트 설명을 입력하세요."
+      onclick="openLightbox(this)">
       <div class="card-thumb-placeholder">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
-          <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-          <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+          <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+          <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
         </svg>
       </div>
       <div class="card-body">
@@ -999,8 +1099,8 @@
           <span class="cat-dot story"></span>
           <span class="cat-label story">THE STORY</span>
         </div>
-        <h3 class="card-title" contenteditable="true" style="outline: rgba(212, 168, 75, 0.6) dashed 2px; border-radius: 4px; min-width: 40px; cursor: text; pointer-events: auto;">더스토리 작업명 2</h3>
-        <p class="card-desc" contenteditable="true" style="outline: rgba(212, 168, 75, 0.6) dashed 2px; border-radius: 4px; min-width: 40px; cursor: text; pointer-events: auto;">자서전 영상 프로젝트 설명을 여기에 적어주세요.</p>
+        <h3 class="card-title">더스토리 작업명 2</h3>
+        <p class="card-desc">자서전 영상 프로젝트 설명을 여기에 적어주세요.</p>
       </div>
     </article>
 
@@ -1012,45 +1112,45 @@
 <section id="about">
   <div class="sec-header fade-in">
     <p class="sec-label">About</p>
-    <h2 class="sec-title" contenteditable="true" style="outline: rgba(212, 168, 75, 0.6) dashed 2px; border-radius: 4px; min-width: 40px; cursor: text; pointer-events: auto;">한수감독</h2>
+    <h2 class="sec-title">한수감독</h2>
   </div>
   <div class="about-grid fade-in">
     <div>
       <!-- ✏️ 아래 div를 <img class="card-thumb" src="사진경로" alt="한수감독"> 로 교체 -->
       <div class="photo-placeholder">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
-          <circle cx="12" cy="8" r="4"></circle><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"></path>
+          <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
         </svg>
         <span>프로필 사진</span>
       </div>
     </div>
     <div class="about-text">
-      <h3 class="about-name" contenteditable="true" style="outline: rgba(212, 168, 75, 0.6) dashed 2px; border-radius: 4px; min-width: 40px; cursor: text; pointer-events: auto;">한수감독</h3>
-      <p class="about-role" contenteditable="true" style="outline: rgba(212, 168, 75, 0.6) dashed 2px; border-radius: 4px; min-width: 40px; cursor: text; pointer-events: auto;">Director · LooknLink Production</p>
+      <h3 class="about-name">한수감독</h3>
+      <p class="about-role">Director · LooknLink Production</p>
       <!-- ✏️ 자기소개 텍스트를 수정하세요 -->
-      <p contenteditable="true" style="outline: rgba(212, 168, 75, 0.6) dashed 2px; border-radius: 4px; min-width: 40px; cursor: text; pointer-events: auto;">안녕하세요. 룩앤링크 프로덕션의 한수감독입니다.</p>
-      <p contenteditable="true" style="outline: rgba(212, 168, 75, 0.6) dashed 2px; border-radius: 4px; min-width: 40px; cursor: text; pointer-events: auto;">영상과 사진으로 이야기를 담고, 나무 위에 기억을 새기며, 한 사람의 생애를 영상으로 기록합니다. 각기 다른 분야이지만 모두 같은 질문에서 시작합니다 — <em>"어떻게 하면 이 순간을 오래 남길 수 있을까?"</em></p>
+      <p>안녕하세요. 룩앤링크 프로덕션의 한수감독입니다.</p>
+      <p>영상과 사진으로 이야기를 담고, 나무 위에 기억을 새기며, 한 사람의 생애를 영상으로 기록합니다. 각기 다른 분야이지만 모두 같은 질문에서 시작합니다 — <em>"어떻게 하면 이 순간을 오래 남길 수 있을까?"</em></p>
 
       <div class="about-brand-list">
         <div class="abl-item">
           <div class="abl-color" style="background:var(--gold);"></div>
           <div class="abl-body">
-            <p class="abl-name" contenteditable="true" style="outline: rgba(212, 168, 75, 0.6) dashed 2px; border-radius: 4px; min-width: 40px; cursor: text; pointer-events: auto;">LooknLink Production</p>
-            <p class="abl-desc" contenteditable="true" style="outline: rgba(212, 168, 75, 0.6) dashed 2px; border-radius: 4px; min-width: 40px; cursor: text; pointer-events: auto;">메인 브랜드 · VIDEO &amp; PHOTO</p>
+            <p class="abl-name">LooknLink Production</p>
+            <p class="abl-desc">메인 브랜드 · VIDEO &amp; PHOTO</p>
           </div>
         </div>
         <div class="abl-item">
           <div class="abl-color" style="background:var(--wood-lt);"></div>
           <div class="abl-body">
-            <p class="abl-name" contenteditable="true" style="outline: rgba(212, 168, 75, 0.6) dashed 2px; border-radius: 4px; min-width: 40px; cursor: text; pointer-events: auto;">WOOD · Shittim</p>
-            <p class="abl-desc" contenteditable="true" style="outline: rgba(212, 168, 75, 0.6) dashed 2px; border-radius: 4px; min-width: 40px; cursor: text; pointer-events: auto;">하위 브랜드 · 나무 소재 레이저 각인 &amp; 목공 작업</p>
+            <p class="abl-name">WOOD · Shittim</p>
+            <p class="abl-desc">하위 브랜드 · 나무 소재 레이저 각인 &amp; 목공 작업</p>
           </div>
         </div>
         <div class="abl-item">
           <div class="abl-color" style="background:var(--story-lt);"></div>
           <div class="abl-body">
-            <p class="abl-name" contenteditable="true" style="outline: rgba(212, 168, 75, 0.6) dashed 2px; border-radius: 4px; min-width: 40px; cursor: text; pointer-events: auto;">THE STORY</p>
-            <p class="abl-desc" contenteditable="true" style="outline: rgba(212, 168, 75, 0.6) dashed 2px; border-radius: 4px; min-width: 40px; cursor: text; pointer-events: auto;">하위 브랜드 · 자서전 영상 프로젝트</p>
+            <p class="abl-name">THE STORY</p>
+            <p class="abl-desc">하위 브랜드 · 자서전 영상 프로젝트</p>
           </div>
         </div>
       </div>
@@ -1063,7 +1163,7 @@
 <section id="contact">
   <div class="sec-header fade-in">
     <p class="sec-label">Get in Touch</p>
-    <h2 class="sec-title" contenteditable="true" style="outline: rgba(212, 168, 75, 0.6) dashed 2px; border-radius: 4px; min-width: 40px; cursor: text; pointer-events: auto;">문의하기</h2>
+    <h2 class="sec-title">문의하기</h2>
   </div>
   <div class="contact-grid fade-in">
     <div class="contact-info">
@@ -1075,21 +1175,21 @@
         <!-- ✏️ 연락처 정보를 수정하세요 -->
         <a href="mailto:joyhans@gmail.com" class="contact-link">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-            <rect x="2" y="4" width="20" height="16" rx="2"></rect><polyline points="2,4 12,13 22,4"></polyline>
+            <rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/>
           </svg>
           joyhans@gmail.com
         </a>
         <a href="https://instagram.com/" target="_blank" class="contact-link">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-            <rect x="2" y="2" width="20" height="20" rx="5"></rect><circle cx="12" cy="12" r="5"></circle>
-            <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"></circle>
+            <rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/>
+            <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
           </svg>
           Instagram · @룩앤링크 (수정해주세요)
         </a>
         <a href="https://youtube.com/" target="_blank" class="contact-link">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-            <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.97C18.88 4 12 4 12 4s-6.88 0-8.59.45A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.97C5.12 20 12 20 12 20s6.88 0 8.59-.45a2.78 2.78 0 0 0 1.95-1.97A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"></path>
-            <polygon points="9.75,15.02 15.5,12 9.75,8.98 9.75,15.02"></polygon>
+            <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.97C18.88 4 12 4 12 4s-6.88 0-8.59.45A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.97C5.12 20 12 20 12 20s6.88 0 8.59-.45a2.78 2.78 0 0 0 1.95-1.97A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/>
+            <polygon points="9.75,15.02 15.5,12 9.75,8.98 9.75,15.02"/>
           </svg>
           YouTube · 룩앤링크 (수정해주세요)
         </a>
@@ -1099,11 +1199,11 @@
     <form class="contact-form" onsubmit="submitForm(event)">
       <div class="form-group">
         <label for="name">이름</label>
-        <input id="name" type="text" placeholder="홍길동" required="">
+        <input id="name" type="text" placeholder="홍길동" required />
       </div>
       <div class="form-group">
         <label for="email">이메일</label>
-        <input id="email" type="email" placeholder="email@example.com" required="">
+        <input id="email" type="email" placeholder="email@example.com" required />
       </div>
       <div class="form-group">
         <label for="brand">문의 분야</label>
@@ -1118,7 +1218,7 @@
       </div>
       <div class="form-group">
         <label for="msg">메시지</label>
-        <textarea id="msg" placeholder="안녕하세요! 작업 관련 문의 드립니다..." required=""></textarea>
+        <textarea id="msg" placeholder="안녕하세요! 작업 관련 문의 드립니다..." required></textarea>
       </div>
       <button type="submit" class="btn btn-gold" style="width:fit-content;">보내기</button>
       <p id="formMsg" style="font-size:0.83rem;color:var(--gold);display:none;">
@@ -1144,29 +1244,63 @@
 </footer>
 
 
+<!-- ════════════ 영상 추가 모달 ════════════ -->
+<div id="addVideoModal">
+  <div class="avm-inner">
+    <p class="avm-title">📹 영상 추가</p>
+    <p class="avm-sub">유튜브 링크를 붙여넣으면 자동으로 카드가 생성됩니다.</p>
+
+    <div class="avm-field">
+      <label>유튜브 링크</label>
+      <input id="avmUrl" type="text" placeholder="https://youtu.be/XXXXXXXXXXX" oninput="onAvmUrlInput(this.value)" />
+    </div>
+
+    <div class="avm-yt-preview" id="avmPreview">
+      <img id="avmPreviewImg" src="" alt="썸네일 미리보기" />
+    </div>
+
+    <div class="avm-field">
+      <label>영상 제목</label>
+      <input id="avmTitle" type="text" placeholder="영상 제목을 입력하세요" />
+    </div>
+
+    <div class="avm-field">
+      <label>영상 설명 (선택)</label>
+      <textarea id="avmDesc" placeholder="간단한 설명을 입력하세요"></textarea>
+    </div>
+
+    <div class="avm-btns">
+      <button class="avm-cancel" onclick="closeAddVideoModal()">취소</button>
+      <button class="avm-confirm" id="avmConfirm" onclick="confirmAddVideo()" disabled>추가하기</button>
+    </div>
+  </div>
+</div>
+
 <!-- ════════════ LIGHTBOX ════════════ -->
 <div id="lightbox" onclick="closeLightbox(event)">
   <div class="lb-inner">
     <button class="lb-close" onclick="closeLightboxBtn()">✕</button>
     <!-- 유튜브 iframe -->
     <div id="lbYt" style="display:none; position:relative; padding-bottom:56.25%; height:0;">
-      <iframe id="lbYtFrame" style="position:absolute;top:0;left:0;width:100%;height:100%;" src="" frameborder="0" allowfullscreen="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
+      <iframe id="lbYtFrame" style="position:absolute;top:0;left:0;width:100%;height:100%;"
+        src="" frameborder="0" allowfullscreen
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
       </iframe>
     </div>
     <!-- 이미지 -->
     <div id="lbThumbPh" class="lb-thumb-ph" style="height:220px;">
       <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="1.2">
-        <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+        <rect x="2" y="4" width="20" height="16" rx="2"/>
       </svg>
     </div>
-    <img id="lbImg" class="lb-img" src="" alt="" style="display:none">
+    <img id="lbImg" class="lb-img" src="" alt="" style="display:none"/>
     <div class="lb-body">
       <div class="card-cat-row" style="margin-bottom:8px">
         <span id="lbDot" class="cat-dot gold"></span>
-        <span id="lbCatLabel" class="cat-label gold">VIDEO</span>
+        <span id="lbCatLabel" class="cat-label gold"></span>
       </div>
-      <h3 id="lbTitle" style="font-size:1.1rem;margin-bottom:8px;">영상 작업명 1</h3>
-      <p id="lbDesc" style="color:var(--muted);font-size:0.88rem;line-height:1.75;">영상 설명을 여기에 적어주세요.</p>
+      <h3 id="lbTitle" style="font-size:1.1rem;margin-bottom:8px;"></h3>
+      <p id="lbDesc" style="color:var(--muted);font-size:0.88rem;line-height:1.75;"></p>
     </div>
   </div>
 </div>
@@ -1314,6 +1448,103 @@
     }
   }
 
+  /* ── 영상 추가 모달 ── */
+  function extractYtId(url) {
+    // youtu.be/ID, youtube.com/watch?v=ID, youtube.com/embed/ID, youtube.com/shorts/ID
+    const patterns = [
+      /youtu\.be\/([A-Za-z0-9_\-]{11})/,
+      /youtube\.com\/watch\?.*v=([A-Za-z0-9_\-]{11})/,
+      /youtube\.com\/embed\/([A-Za-z0-9_\-]{11})/,
+      /youtube\.com\/shorts\/([A-Za-z0-9_\-]{11})/,
+      /youtube\.com\/v\/([A-Za-z0-9_\-]{11})/
+    ];
+    for (const p of patterns) {
+      const m = url.match(p);
+      if (m) return m[1];
+    }
+    return null;
+  }
+
+  function onAvmUrlInput(val) {
+    const id = extractYtId(val.trim());
+    const preview = document.getElementById('avmPreview');
+    const previewImg = document.getElementById('avmPreviewImg');
+    const confirmBtn = document.getElementById('avmConfirm');
+    if (id) {
+      previewImg.src = 'https://img.youtube.com/vi/' + id + '/hqdefault.jpg';
+      preview.classList.add('show');
+      confirmBtn.disabled = false;
+    } else {
+      preview.classList.remove('show');
+      confirmBtn.disabled = true;
+    }
+  }
+
+  function openAddVideoModal() {
+    document.getElementById('avmUrl').value = '';
+    document.getElementById('avmTitle').value = '';
+    document.getElementById('avmDesc').value = '';
+    document.getElementById('avmPreview').classList.remove('show');
+    document.getElementById('avmConfirm').disabled = true;
+    document.getElementById('addVideoModal').classList.add('open');
+  }
+
+  function closeAddVideoModal() {
+    document.getElementById('addVideoModal').classList.remove('open');
+  }
+
+  function confirmAddVideo() {
+    const url   = document.getElementById('avmUrl').value.trim();
+    const title = document.getElementById('avmTitle').value.trim() || '새 영상';
+    const desc  = document.getElementById('avmDesc').value.trim() || '';
+    const ytId  = extractYtId(url);
+    if (!ytId) return;
+
+    const thumbUrl = 'https://img.youtube.com/vi/' + ytId + '/hqdefault.jpg';
+
+    const article = document.createElement('article');
+    article.className = 'work-card';
+    article.dataset.category = 'video';
+    article.dataset.ytId = ytId;
+    article.setAttribute('onclick', 'openLightbox(this)');
+    article.innerHTML = `
+      <img class="card-thumb"
+        src="${thumbUrl}"
+        alt="영상 썸네일"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="card-thumb-placeholder" style="display:none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+          <rect x="2" y="4" width="20" height="16" rx="2"/><polygon points="10,9 16,12 10,15"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <div class="card-cat-row">
+          <span class="cat-dot gold"></span>
+          <span class="cat-label gold">VIDEO</span>
+        </div>
+        <h3 class="card-title">${title}</h3>
+        <p class="card-desc">${desc}</p>
+      </div>`;
+
+    document.getElementById('worksGrid').prepend(article);
+    closeAddVideoModal();
+
+    // 편집 모드가 켜져 있으면 새 카드에도 편집 적용
+    if (editMode) {
+      EDITABLE.forEach(sel => {
+        article.querySelectorAll(sel).forEach(el => {
+          el.contentEditable = 'true';
+          el.style.outline = '2px dashed rgba(212,168,75,0.6)';
+          el.style.borderRadius = '4px';
+          el.style.minWidth = '40px';
+          el.style.cursor = 'text';
+          el.style.pointerEvents = 'auto';
+        });
+      });
+      article.style.pointerEvents = 'none';
+    }
+  }
+
   function saveHTML() {
     const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
     const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
@@ -1326,19 +1557,40 @@
 </script>
 
 <!-- ── 편집 버튼 (우측 하단 고정) ── -->
-<button id="editToggleBtn" onclick="toggleEditMode()" style="position: fixed; bottom: 28px; right: 28px; z-index: 999; background: rgb(85, 85, 85); color: rgb(10, 10, 10); border-width: medium; border-style: none; border-color: currentcolor; border-image: initial; border-radius: 30px; padding: 12px 22px; font-size: 0.88rem; font-weight: 700; cursor: pointer; font-family: inherit; box-shadow: rgba(0, 0, 0, 0.4) 0px 4px 20px; transition: background 0.2s;">✕ 편집 종료</button>
+<button id="editToggleBtn" onclick="toggleEditMode()" style="
+  position: fixed; bottom: 28px; right: 28px; z-index: 999;
+  background: var(--gold); color: #0a0a0a;
+  border: none; border-radius: 30px;
+  padding: 12px 22px; font-size: 0.88rem; font-weight: 700;
+  cursor: pointer; font-family: inherit;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  transition: background 0.2s;
+">✏️ 편집</button>
 
 <!-- ── 편집 모드 저장 바 ── -->
-<div id="editBar" style="display: flex; position: fixed; bottom: 0px; left: 0px; right: 0px; z-index: 998; background: rgba(20, 20, 20, 0.97); border-top: 1px solid rgb(51, 51, 51); padding: 14px 5vw; gap: 14px; align-items: center; justify-content: space-between;">
+<div id="editBar" style="
+  display: none;
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 998;
+  background: rgba(20,20,20,0.97); border-top: 1px solid #333;
+  padding: 14px 5vw; gap: 14px;
+  align-items: center; justify-content: space-between;
+">
   <span style="color:#aaa; font-size:0.85rem;">✏️ 편집 모드 — 제목이나 설명을 클릭해서 바로 수정하세요</span>
-  <button onclick="saveHTML()" style="
-    background: var(--gold); color: #0a0a0a;
-    border: none; border-radius: 8px;
-    padding: 10px 24px; font-size: 0.88rem; font-weight: 700;
-    cursor: pointer; font-family: inherit; white-space: nowrap;
-  ">💾 저장 (파일 다운로드)</button>
+  <div style="display:flex; gap:10px; flex-shrink:0;">
+    <button onclick="openAddVideoModal()" style="
+      background: #2a2a2a; color: var(--gold-lt);
+      border: 1px solid var(--gold); border-radius: 8px;
+      padding: 10px 20px; font-size: 0.88rem; font-weight: 700;
+      cursor: pointer; font-family: inherit; white-space: nowrap;
+    ">📹 영상 추가</button>
+    <button onclick="saveHTML()" style="
+      background: var(--gold); color: #0a0a0a;
+      border: none; border-radius: 8px;
+      padding: 10px 24px; font-size: 0.88rem; font-weight: 700;
+      cursor: pointer; font-family: inherit; white-space: nowrap;
+    ">💾 저장 (파일 다운로드)</button>
+  </div>
 </div>
 
-
-
-</body></html>
+</body>
+</html>
